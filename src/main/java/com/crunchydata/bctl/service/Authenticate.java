@@ -1,6 +1,6 @@
 package com.crunchydata.bctl.service;
 
-import com.crunchydata.AccessToken;
+import com.crunchydata.model.AccessToken;
 import com.crunchydata.Context;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 
@@ -18,7 +18,8 @@ public class Authenticate implements Callable <AccessToken> {
         CrunchyBridgeApi crunchyBridgeApi =
                 (CrunchyBridgeApi) RestClientBuilder.newBuilder()
                         .baseUri(new URI("https://api.crunchybridge.com/")).build(CrunchyBridgeApi.class);
-        return crunchyBridgeApi.getAccessToken(context.getApplicationKey(), context.getApplicationSecret());
+
+        return crunchyBridgeApi.getAccessToken(context.getCredentials());
 
 
     }

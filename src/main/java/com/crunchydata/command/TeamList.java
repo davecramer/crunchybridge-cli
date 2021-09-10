@@ -1,22 +1,24 @@
 package com.crunchydata.command;
 
-import com.crunchydata.AccessToken;
 import com.crunchydata.Context;
-import com.crunchydata.bctl.service.Authenticate;
 import com.crunchydata.bctl.service.CrunchyBridgeApi;
+import com.crunchydata.model.AccessToken;
+import com.crunchydata.model.TeamInfo;
+import com.crunchydata.model.Teams;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import picocli.CommandLine;
 
 import javax.inject.Inject;
 import java.net.URI;
+import java.util.concurrent.Callable;
 
-@CommandLine.Command(name = "clusters", mixinStandardHelpOptions = true)
-public class Cluster implements Runnable {
+@CommandLine.Command(name = "ls", mixinStandardHelpOptions = true)
+public class TeamList implements Callable<Integer> {
     @Inject
     Context context;
 
     @Override
-    public void run() {
+    public Integer call() throws Exception {
         AccessToken accessToken = null;
         try {
             CrunchyBridgeApi crunchyBridgeApi =
@@ -25,12 +27,18 @@ public class Cluster implements Runnable {
 
             accessToken = context.getAccessToken();
             if (accessToken == null ){
-                context.setAccessToken(crunchyBridgeApi.getAccessToken(context.getApplicationKey(), context.getApplicationSecret()));
+
+                AccessToken accessToken1 = crunchyBridgeApi.getAccessToken(context.getCredentials());
+                context.setAccessToken(accessToken1);
             }
 
-            crunchyBridgeApi.getClusters(context.getAccessToken().getToken());
+            Teams teams = crunchyBridgeApi.getTeams(context.getAccessToken().getToken());
+            for (TeamInfo team: teams.getTeamList()) {
+                System.out.println(team);
+            }
         } catch (Exception ex ){
             ex.printStackTrace();
         }
+        return 0;
     }
 }
