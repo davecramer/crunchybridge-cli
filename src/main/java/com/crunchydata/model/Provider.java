@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class Provider {
-    private final String id;
+public class Provider extends BaseModel{
+
     @JsonProperty("display_name")
     private final String displayName;
     private final List<Region> regions;
@@ -20,11 +20,22 @@ public class Provider {
 
     @Override
     public String toString() {
-        return "Provider{" +
-                "id='" + id + '\'' +
-                ", displayName='" + displayName + '\'' +
-                ", regions=" + regions +
-                ", plans=" + plans +
-                '}';
+        StringBuilder sb = new StringBuilder("Provider: ").append("id: ").append(id)
+                .append("\nDisplay Name: ").append(displayName)
+                .append("\nRegions: ").append(regions)
+                .append("\nPlans").append(plans);
+        return sb.toString();
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public List<Region> getRegions() {
+        return regions;
+    }
+
+    public List<Plan> getPlans() {
+        return plans;
     }
 }

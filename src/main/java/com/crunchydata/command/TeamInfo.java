@@ -1,20 +1,14 @@
 package com.crunchydata.command;
 
-import com.crunchydata.Context;
-import com.crunchydata.bctl.service.CrunchyBridgeApi;
 import com.crunchydata.completions.TeamIdCompletion;
 import com.crunchydata.model.AccessToken;
-import org.eclipse.microprofile.rest.client.RestClientBuilder;
+import com.crunchydata.model.Team;
 import picocli.CommandLine;
 
-import javax.inject.Inject;
-import java.net.URI;
 import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "info", mixinStandardHelpOptions = true)
-public class TeamInfo implements Callable<Integer> {
-    @Inject
-    Context context;
+public class TeamInfo extends  BaseCmd implements Callable<Integer> {
 
     @CommandLine.Parameters(paramLabel = "Team Id", description = "Id of the team", completionCandidates = TeamIdCompletion.class)
     String teamId;
@@ -23,19 +17,14 @@ public class TeamInfo implements Callable<Integer> {
     public Integer call() throws Exception {
         AccessToken accessToken = null;
         try {
-            CrunchyBridgeApi crunchyBridgeApi =
-                    (CrunchyBridgeApi) RestClientBuilder.newBuilder()
-                            .baseUri(new URI("https://api.crunchybridge.com/")).build(CrunchyBridgeApi.class);
+            loadAccessToken();
 
-            accessToken = context.getAccessToken();
-            if (accessToken == null ){
-
-                AccessToken accessToken1 = crunchyBridgeApi.getAccessToken(context.getCredentials());
-                context.setAccessToken(accessToken1);
+            Team team = crunchyBridgeApi.getTeamInfo(context.getAccessToken().getToken(), teamId);
+            if (outputJson) {
+                System.out.println(team.toJson());
+            } else {
+                System.out.println(team);
             }
-
-            com.crunchydata.model.Team team = crunchyBridgeApi.getTeamInfo(context.getAccessToken().getToken(), teamId);
-            System.out.println(team);
         } catch (Exception ex ){
             ex.printStackTrace();
         }

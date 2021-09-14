@@ -2,8 +2,8 @@ package com.crunchydata.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Plan {
-    private final String id;
+
+public class Plan extends BaseModel {
     @JsonProperty("display_name")
     private final String displayName;
     private final int cpu;
@@ -17,11 +17,22 @@ public class Plan {
     }
     @Override
     public String toString() {
-        return "Plan{" +
-                "id='" + id + '\'' +
-                ", displayName='" + displayName + '\'' +
-                ", cpu=" + cpu +
-                ", memory=" + memory +
-                '}';
+        StringBuilder sb = new StringBuilder("Plan: ").append("id: ").append(id)
+                .append("\nDisplay Name").append(displayName)
+                .append("\nCPU: ").append(cpu)
+                .append("\nMemory: ").append(memory);
+        return sb.toString();
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public int getCpu() {
+        return cpu;
+    }
+
+    public int getMemory() {
+        return memory;
     }
 }

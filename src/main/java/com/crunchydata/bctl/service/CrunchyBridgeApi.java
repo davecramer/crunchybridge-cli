@@ -20,6 +20,22 @@ public interface CrunchyBridgeApi {
     Cluster getClusterInfo(@HeaderParam("Authorization") String authorization, @PathParam("cluster_id") String clusterId);
 
     @GET
+    @Path("/clusters/{cluster_id}/roles/{role_id}")
+    ConnectionCredentials getCredentials(@HeaderParam("Authorization") String authorization, @PathParam("cluster_id") String clusterId, @PathParam("role_id") String roleId);
+
+    @POST
+    @Path("/clusters")
+    void createCluster(@HeaderParam("Authorization") String authorization, Cluster cluster);
+
+    @POST
+    @Path("/clusters/{clusterId}/forks")
+    void createCluster(@HeaderParam("Authorization") String authorization, @PathParam("clusterId")String clusterId);
+
+    @DELETE
+    @Path("/clusters/{clusterId}")
+    void deleteCluster(@HeaderParam("Authorization") String authorization, @PathParam("clusterId")String clusterId);
+
+    @GET
     @Path("/cluster")
     Cluster getCluster(@HeaderParam("Authorization") String authorization);
 

@@ -6,9 +6,9 @@ import java.util.List;
 
 public class Teams {
     @JsonProperty("teams")
-    List<TeamInfo> teamList;
+    List<Team> teamList;
 
-    public List<TeamInfo> getTeamList() {
+    public List<Team> getTeamList() {
         return teamList;
     }
 }

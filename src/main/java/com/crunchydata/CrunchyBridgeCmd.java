@@ -10,6 +10,7 @@ import picocli.CommandLine;
         ClusterCmd.class,
         TeamsCmd.class,
         ProviderCmd.class,
+        CredentialsCmd.class,
         ClusterIdCompletionCandidate.class
 }, description = "A command-line interface for Crunchy Bridge"
 
