@@ -18,7 +18,7 @@ public class Plan extends BaseModel {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Plan: ").append("id: ").append(id)
-                .append("\nDisplay Name").append(displayName)
+                .append("\nDisplay Name: ").append(displayName)
                 .append("\nCPU: ").append(cpu)
                 .append("\nMemory: ").append(memory);
         return sb.toString();

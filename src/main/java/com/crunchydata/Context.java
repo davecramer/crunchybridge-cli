@@ -1,19 +1,21 @@
 package com.crunchydata;
 
 
+import com.crunchydata.command.LoginCmd;
 import com.crunchydata.model.AccessToken;
 import com.crunchydata.model.Credentials;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import picocli.CommandLine;
 
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class Context {
     @ConfigProperty(name="application.key")
-    private String applicationKey;
+    String applicationKey;
 
     @ConfigProperty(name="application.secret")
-    private String applicationSecret;
+    String applicationSecret;
 
     private AccessToken accessToken;
 
@@ -42,6 +44,15 @@ public class Context {
     }
 
     public Credentials getCredentials() {
+        if (applicationSecret == null || applicationKey == null ){
+            try {
+                CommandLine cmdLine = new CommandLine(new LoginCmd());
+                cmdLine.execute(new String []{""});
+                return cmdLine.getExecutionResult();
+            } catch (Exception ex){
+                //ignore
+            }
+        }
         return new Credentials(applicationKey, applicationSecret );
     }
 

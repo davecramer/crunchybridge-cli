@@ -12,7 +12,6 @@ public class TeamList extends  BaseCmd implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        AccessToken accessToken = null;
         try {
             loadAccessToken();
             Teams teams = crunchyBridgeApi.getTeams(context.getAccessToken().getToken());

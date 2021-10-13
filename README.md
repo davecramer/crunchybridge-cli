@@ -73,3 +73,4 @@ via:
 ```shell script
 ./gradlew quarkusDev --quarkus-args='Quarky'
 ```
+cluster create -n testcluster -p aws -r ca-central-1 --plan=hobby-2 -t frlfu3x2pndnllsvjadviwga54 -m 14 -s 100 --ha=false'

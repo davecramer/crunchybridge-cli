@@ -1,6 +1,7 @@
 package com.crunchydata.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -19,54 +20,36 @@ import java.util.List;
         "memory": 8,
         "is_ha": true
  */
+@RegisterForReflection
 public class Cluster extends BaseModel {
+
     @JsonProperty("team_id")
-    private String teamId;
+    public String teamId;
     @JsonProperty("provider_id")
-    private String providerId;
+    public String providerId;
     @JsonProperty("region_id")
-    private String regionId;
+    public String regionId;
     @JsonProperty("created_at")
-    private Timestamp createdAt;
+    public Timestamp createdAt;
     @JsonProperty("updated_id")
-    private Timestamp updatedAt;
+    public Timestamp updatedAt;
     @JsonProperty("name")
-    private String name;
+    public String name;
+    @JsonProperty("network_id")
+    public String networkId;
     @JsonProperty("major_version")
-    private Integer majorVersion;
+    public Integer majorVersion;
     @JsonProperty("storage")
-    private Integer storage;
-    private Integer cpu;
-    private Integer memory;
+    public Integer storage;
+    public Integer cpu;
+    public Integer memory;
     @JsonProperty("is_ha")
-    private boolean isHa;
+    public boolean isHa;
 
     @JsonProperty("plan_id")
-    private String plan;
+    public String plan;
 
-    private List<Cluster> replicas;
-
-    public Cluster() {
-
-    }
-    public Cluster(String id, String teamId, String providerId, String regionId,
-                   Timestamp createdAt, Timestamp updatedAt, String name,
-                   Integer majorVersion, Integer storage, Integer cpu,
-                   Integer memory, boolean isHa, List<Cluster> replicas) {
-        this.id = id;
-        this.teamId = teamId;
-        this.providerId = providerId;
-        this.regionId = regionId;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.name = name;
-        this.majorVersion = majorVersion;
-        this.storage = storage;
-        this.cpu = cpu;
-        this.memory = memory;
-        this.isHa = isHa;
-        this.replicas = replicas;
-    }
+    public List<Cluster> replicas;
 
     public void setId(String id) {
         this.id = id;

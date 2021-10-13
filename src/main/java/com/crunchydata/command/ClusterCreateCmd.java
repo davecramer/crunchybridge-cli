@@ -1,5 +1,6 @@
 package com.crunchydata.command;
 
+import com.crunchydata.completions.ProviderCompletion;
 import com.crunchydata.model.Cluster;
 import picocli.CommandLine;
 import java.util.concurrent.Callable;
@@ -25,7 +26,10 @@ import java.util.concurrent.Callable;
 
  */
 @CommandLine.Command(name = "create", mixinStandardHelpOptions = true)
-public class ClusterCreate extends BaseCmd implements Callable<Integer> {
+public class ClusterCreateCmd extends BaseCmd implements Callable<Integer> {
+
+    @CommandLine.Parameters(paramLabel = "HELP", description = "Show providers", completionCandidates = ProviderCompletion.class)
+    String help;
     /*
     <--platform|-p> <--region|-r> <--plan> <--team|-t> <--version|-v>[--size|-s] [--name|-n] [--ha]
     --fork ID [--at] [--platform|-p] [--region|-r] [--plan] [--size|-s] [--name|-n] [--ha]
@@ -36,7 +40,7 @@ public class ClusterCreate extends BaseCmd implements Callable<Integer> {
     String platform;
     @CommandLine.Option(names={"-r",  "--region, "}, description = "Region/Location")
     String region;
-    @CommandLine.Option(names={"--plan"}, description = "Plan Server CPU/memory")
+    @CommandLine.Option(names={"--plan"}, description = "Plan Server CPU/memory" )
     String plan;
     @CommandLine.Option(names={"-t", "--team"}, description = "team id")
     String teamId;
@@ -48,13 +52,15 @@ public class ClusterCreate extends BaseCmd implements Callable<Integer> {
     @CommandLine.Option(names={"-n", "--name"}, description = "Name of cluster")
     String name;
     @CommandLine.Option(names={"--ha"}, description = "Provision as Highly Available")
-    Boolean highAvailability;
+    boolean highAvailability;
     @CommandLine.Option(names={"--fork"}, description = "Choose cluster to fork")
     String forkId;
     @CommandLine.Option(names={"--replica"}, description = "Choose cluster for read replica")
     String replicaId;
     @CommandLine.Option(names={"--at"}, description = "Recovery point-in-time in RFC3339 (default: now)")
     String atTime;
+    @CommandLine.Option(names={"--network"}, description = "Network Id from team networks command")
+    String networkId;
 
     @Override
     public Integer call() throws Exception {
@@ -73,6 +79,11 @@ public class ClusterCreate extends BaseCmd implements Callable<Integer> {
         cluster.setPlan(plan);
         cluster.setMajorVersion(version);
         cluster.setTeamId(teamId);
+        cluster.networkId = networkId;
+        if (highAvailability) {
+            cluster.setHa(highAvailability);
+        }
+
 
         crunchyBridgeApi.createCluster(context.getAccessToken().getToken(), cluster);
         System.out.println("Cluster created");

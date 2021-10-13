@@ -1,11 +1,13 @@
 package com.crunchydata.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Team  extends BaseModel{
+@RegisterForReflection
+public class Team  extends BaseModel {
 
     private final String name;
     @JsonProperty("is_personal")

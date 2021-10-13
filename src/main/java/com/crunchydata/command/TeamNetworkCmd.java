@@ -7,8 +7,8 @@ import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
 
-@CommandLine.Command(name = "info", mixinStandardHelpOptions = true)
-public class TeamInfo extends  BaseCmd implements Callable<Integer> {
+@CommandLine.Command(name = "networks", mixinStandardHelpOptions = true)
+public class TeamNetworkCmd extends  BaseCmd implements Callable<Integer> {
 
     @CommandLine.Parameters(paramLabel = "Team Id", description = "Id of the team", completionCandidates = TeamIdCompletion.class)
     String teamId;

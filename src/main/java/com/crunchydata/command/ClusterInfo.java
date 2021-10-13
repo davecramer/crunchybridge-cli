@@ -21,7 +21,7 @@ public class ClusterInfo extends BaseCmd implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
         super.loadAccessToken();
-        Cluster cluster = crunchyBridgeApi.getClusterInfo(context.getAccessToken().getToken(), clusterId);
+        Cluster cluster = crunchyBridgeApi.getCluster(context.getAccessToken().getToken(), clusterId);
         if (outputJson) {
             System.out.println(cluster.toJson());
         } else {
